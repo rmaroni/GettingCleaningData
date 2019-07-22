@@ -1,2 +1,0 @@
-# GettingCleaningData
-Final assignment
