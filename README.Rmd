@@ -1,0 +1,56 @@
+---
+title: "README"
+author: "Roberta Maroni"
+date: "22/7/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This is the README file for the final assignment of the *Getting and Cleaning
+Data* course.
+
+The assignment is based
+on data collected for the following project by the following researchers: \newline
+
+
+Human Activity Recognition Using Smartphones Dataset
+Version 1.0
+
+Jorge L. Reyes-Ortiz, Davide Anguita, Alessandro Ghio, Luca Oneto.
+
+Smartlab - Non Linear Complex Systems Laboratory
+
+DITEN - Università degli Studi di Genova.
+Via Opera Pia 11A, I-16145, Genoa, Italy
+
+<activityrecognition@smartlab.ws>
+
+<http://www.smartlab.ws> \newline
+
+
+A detailed description of their study is available here:
+
+<http://archive.ics.uci.edu/ml/datasets/Human+Activity+Recognition+Using+Smartphones> \newline
+
+The experiment had 30 subjects perform 6 different activities
+(WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING)
+multiple times while collecting data on several parameters through their
+smartphones.
+The dataset was then divided into a training set (70% of the participants)
+and a test set (30% of the participants) at random.
+
+
+The repo includes the following files:
+
+- *README.txt*
+
+- *run_analysis.R*, the script
+
+- *Codebook.Rmd*, the codebook for this project
+
+
+The script downloads the raw data files, imports them and cleans/edits them
+to create one tidy final dataset and one summary dataset.

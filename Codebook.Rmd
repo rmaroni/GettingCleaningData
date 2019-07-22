@@ -1,0 +1,200 @@
+---
+title: "Codebook"
+author: "Roberta Maroni"
+date: "22/7/2019"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This codebook was prepared for the final assignment of the *Getting and cleaning
+data* course.
+
+
+This file describes the data, any transformations or work performed, and the
+variables of the two output datasets.
+
+
+# Data
+
+The raw data are available at this link:
+
+<https://d396qusza40orc.cloudfront.net/getdata%2Fprojectfiles%2FUCI%20HAR%20Dataset.zip>
+
+
+The README file of the original study details the composition of all the raw tables.
+
+
+The R script available in the repo, *run_analysis.R*, imports the raw data,
+edits it and creates two final datasets: one tidy version of the data with only
+the variables we are interested in, and a summary version of the data grouped by subject ID and activity type.
+
+
+# Running the script
+
+The script can be run without making any changes, except for deleting
+the hashtag at line 13 in case of an error message (if libraries 'plyr' and
+'dplyr' are not installed). The following documents the steps of the script:
+the raw datasets used and the final output.
+
+
+## Part 1: putting together a tidy dataset
+
+The script downloads a compressed data folder, unzips it
+and creates the folder *UCI HAR Dataset* (or overwrites it if already existing).
+It then reads the following data tables from *UCI HAR Dataset* into R:
+
+- *subject_train.txt*, list of 21 training subject IDs (from 1 to 30,
+    with gaps), repeated several times (7352 observations)
+
+- *X_train.txt*, data on 561 different measurements for 7352 observations
+
+- *y_train.txt*, list of 6 different activity IDs (from 1 to 6), repeated
+    several times (7352 observations)
+
+The three data tables above are merged as they are
+on the assumption that they refer to
+observations taken in the same order. This will be the **training dataset**.
+
+
+Similarly, the following data tables are read from *UCI HAR Dataset* into R:
+
+- *subject_test.txt*, list of 9 training subject IDs (from 2 to 24,
+    with gaps), repeated several times (2947 observations)
+
+- *X_test.txt*, data on 561 different measurements for 2947 observations
+
+- *y_test.txt*, list of 6 different activity IDs (from 1 to 6), repeated
+    several times (2947 observations)
+
+The three data tables above are merged as they are
+on the assumption that they refer to
+observations taken in the same order. This will be the **test dataset**.
+
+
+Finally, the training and the test datasets are appended to create a
+**final dataset** with 10,299 observations.
+The dataset is then sorted on subject IDs.
+
+
+The next step is to load the data table:
+
+*features.txt*
+
+into R as it contains the labels for the 561 columns with measurements.
+These are then set as column names in the final dataset.
+This allows us to identify which variables represent means and standard
+deviations, i.e. the 66 column names that contain "mean()" or "std()".
+The other measurement variables are discarded.
+
+
+The last step for the cleaning/editing of the final dataset is to assign
+labels to the activity IDs. We load the data table:
+
+*activity_labels.txt*
+
+into R. It contains 6 activity IDs (from 1 to 6) and the corresponding labels:
+WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING.
+We merge its contents to the final datset by activity ID;
+we delete the activity ID column so that only activity labels are left
+and we rearrange the order of the columns.
+The **final dataset** is now ready.
+
+
+## Part 2: creating a summary dataset
+
+The groups (subject ID, followed by activity type) are set first. Then a new dataset is created with a different subject-activity combination in each line
+and the mean of each variable in the remaining 66 columns.
+
+
+# Variable codebook
+
+## Final dataset
+
+This is called *finalData* in the R script. It has 10,299 rows and 68 columns.
+
+
+List of variables:
+
+- "subjectId", integer, range: 1-30, identifies study subjects univocally
+- "activity", categorical, levels: 6 (WALKING, WALKING_UPSTAIRS, WALKING_DOWNSTAIRS, SITTING, STANDING, LAYING)
+
+The following variables are all continuous and represent different measurements of the values detected by a smartphone:
+- "tBodyAcc-mean()-X"           
+- "tBodyAcc-mean()-Y"           
+- "tBodyAcc-mean()-Z"           
+- "tBodyAcc-std()-X"           
+- "tBodyAcc-std()-Y"           
+- "tBodyAcc-std()-Z"           
+- "tGravityAcc-mean()-X"        
+- "tGravityAcc-mean()-Y"       
+- "tGravityAcc-mean()-Z"        
+- "tGravityAcc-std()-X"        
+- "tGravityAcc-std()-Y"         
+- "tGravityAcc-std()-Z"        
+- "tBodyAccJerk-mean()-X"       
+- "tBodyAccJerk-mean()-Y"      
+- "tBodyAccJerk-mean()-Z"       
+- "tBodyAccJerk-std()-X"       
+- "tBodyAccJerk-std()-Y"        
+- "tBodyAccJerk-std()-Z"       
+- "tBodyGyro-mean()-X"          
+- "tBodyGyro-mean()-Y"         
+- "tBodyGyro-mean()-Z"          
+- "tBodyGyro-std()-X"          
+- "tBodyGyro-std()-Y"           
+- "tBodyGyro-std()-Z"          
+- "tBodyGyroJerk-mean()-X"      
+- "tBodyGyroJerk-mean()-Y"     
+- "tBodyGyroJerk-mean()-Z"      
+- "tBodyGyroJerk-std()-X"      
+- "tBodyGyroJerk-std()-Y"       
+- "tBodyGyroJerk-std()-Z"      
+- "tBodyAccMag-mean()"          
+- "tBodyAccMag-std()"          
+- "tGravityAccMag-mean()"       
+- "tGravityAccMag-std()"       
+- "tBodyAccJerkMag-mean()"      
+- "tBodyAccJerkMag-std()"      
+- "tBodyGyroMag-mean()"         
+- "tBodyGyroMag-std()"         
+- "tBodyGyroJerkMag-mean()"     
+- "tBodyGyroJerkMag-std()"     
+- "fBodyAcc-mean()-X"           
+- "fBodyAcc-mean()-Y"          
+- "fBodyAcc-mean()-Z"           
+- "fBodyAcc-std()-X"           
+- "fBodyAcc-std()-Y"            
+- "fBodyAcc-std()-Z"           
+- "fBodyAccJerk-mean()-X"       
+- "fBodyAccJerk-mean()-Y"      
+- "fBodyAccJerk-mean()-Z"       
+- "fBodyAccJerk-std()-X"       
+- "fBodyAccJerk-std()-Y"        
+- "fBodyAccJerk-std()-Z"       
+- "fBodyGyro-mean()-X"          
+- "fBodyGyro-mean()-Y"         
+- "fBodyGyro-mean()-Z"          
+- "fBodyGyro-std()-X"          
+- "fBodyGyro-std()-Y"           
+- "fBodyGyro-std()-Z"          
+- "fBodyAccMag-mean()"          
+- "fBodyAccMag-std()"          
+- "fBodyBodyAccJerkMag-mean()"  
+- "fBodyBodyAccJerkMag-std()"  
+- "fBodyBodyGyroMag-mean()"     
+- "fBodyBodyGyroMag-std()"  
+- "fBodyBodyGyroJerkMag-mean()"  
+- "fBodyBodyGyroJerkMag-std()"
+
+
+## Summary dataset
+
+This is called *secondData* in the R script. It contains 180 rows and 68 columns.
+Each row represents a different subject-activity combination.
+
+The variable names are all the same as in the final dataset, but now the 66
+measurements represent the average of the measurements of *finalData* by
+subject and type of activity.
